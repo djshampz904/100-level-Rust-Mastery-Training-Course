@@ -1,0 +1,1 @@
+/home/shvmpz/100-level\ Rust\ Mastery\ Training\ Course/txtprocessor/target/debug/txtprocessor: /home/shvmpz/100-level\ Rust\ Mastery\ Training\ Course/txtprocessor/src/lib.rs /home/shvmpz/100-level\ Rust\ Mastery\ Training\ Course/txtprocessor/src/main.rs
