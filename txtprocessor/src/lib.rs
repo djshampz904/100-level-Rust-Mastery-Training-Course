@@ -1,5 +1,6 @@
 use std::fs;
 use std::path::Path;
+use std::collections::HashMap;
 
 pub fn read_file(path: &Path) -> Result<String, std::io::Error> {
     match fs::read_to_string(path) {
@@ -21,6 +22,41 @@ pub fn count_characters(content: &str) -> usize {
 
 pub fn count_words(content: &str) -> usize {
     content.split_whitespace().collect::<Vec<&str>>().len()
+}
+ 
+
+pub fn scan_duplicates(content: &str) {
+    let mut dups: HashMap<&str, usize> = HashMap::new();
+    let mut mychars = content.chars().collect::<Vec<char>>();
+    let mut new_content = String::new();
+
+    // remove punctuations
+    for (i, item) in mychars.iter().enumerate() {
+    match *item {
+        ',' | '.' | '/' | '?' | '!' | ':' | ';' | '\'' | '"' | '(' | ')' | '[' | ']' | '{' | 
+            '}' | '-' | '_' | '@' | '#' | '$' | '%' | '^' | '&' | '*' | '+' | '=' | '<' | '>'
+            | '\\' | '|' => {
+                
+            }
+        _ => new_content.push(*item)
+    }
+    }
+
+    let mut myhash: HashMap<&str, i32> = HashMap::new();
+
+    let mywords = new_content.collect::<Vec<char>>();
+
+    for word in mywords {
+        *myhash.entry(word).or_insert(0) += 1;
+    }
+    let mut non_dups: Vec<&str> = Vec::new();
+
+    for (key, value) in &myhash {
+        non_dups.push(key);
+    }
+
+    let text:String = non_dups.iter().collect();
+    println!("{}", text);
 }
 
 #[cfg(test)]

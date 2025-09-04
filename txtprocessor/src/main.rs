@@ -8,7 +8,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let line_count = txtprocessor::count_lines(&mycontent);
     let count_characters = txtprocessor::count_characters(&mycontent);
     let count_words = txtprocessor::count_words(&mycontent);
-
+    txtprocessor::scan_duplicates(&mycontent);
     println!("Word count: {}", count_words);
     println!("Line count: {}", line_count);
     println!("Character count: {}", count_characters);
