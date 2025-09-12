@@ -1,5 +1,11 @@
 use std::fs;
-use std::path::Path;
+use std::error::Error;
+use std::io::Write;
+use std::fs::File;
+use std::path::{ 
+    Path,
+    PathBuf
+};
 use std::collections::HashMap;
 
 pub fn read_file(path: &Path) -> Result<String, std::io::Error> {
@@ -23,9 +29,48 @@ pub fn count_characters(content: &str) -> usize {
 pub fn count_words(content: &str) -> usize {
     content.split_whitespace().collect::<Vec<&str>>().len()
 }
- 
 
-pub fn scan_duplicates(content: &str) {
+pub fn write_file(path: &str, content: &str) -> Result<(), Box<dyn Error>> {
+    let mut file = File::create(path)?;
+    write!(file, "{}", content)?;
+
+    Ok(())
+}
+
+pub fn remove_duplicates(content: &str) -> String {
+    let mut non_dups = String::new();
+    let mut track_words: HashMap<String, usize> = HashMap::new();
+    let content_lines = content.lines().collect::<Vec<&str>>();
+
+    for line in content_lines {
+        // vector for storing the extracted non dups words
+        let mut extracted_words: Vec<&str> = Vec::new();
+
+        // split the line and create a vector of words
+        let line_content = line.split_whitespace().collect::<Vec<&str>>();
+
+        // loop through the line and check the words
+        for word in line_content {
+            // put word in lowercase
+            let lowercase_word = word.to_lowercase();
+            let look_up = lowercase_word.as_str();
+
+            // if word not already in the hash insert it or continue if its there
+            if track_words.contains_key(look_up) {
+                continue;
+            }
+
+            track_words.insert(lowercase_word, 1);
+            extracted_words.push(word);
+        }
+        non_dups.push_str(extracted_words.join(" ").as_str());
+        non_dups.push('\n');
+    }
+    non_dups
+}
+
+
+pub fn scan_duplicates(content: &str) -> String {
     let mut dups: HashMap<&str, usize> = HashMap::new();
     let mut mychars = content.chars().collect::<Vec<char>>();
     let mut new_content = String::new();
@@ -44,19 +89,15 @@ pub fn scan_duplicates(content: &str) {
 
     let mut myhash: HashMap<&str, i32> = HashMap::new();
 
-    let mywords = new_content.collect::<Vec<char>>();
+    let mywords = new_content.split_whitespace().collect::<Vec<&str>>();
 
     for word in mywords {
         *myhash.entry(word).or_insert(0) += 1;
     }
-    let mut non_dups: Vec<&str> = Vec::new();
+    
 
-    for (key, value) in &myhash {
-        non_dups.push(key);
-    }
+     new_content
 
-    let text:String = non_dups.iter().collect();
-    println!("{}", text);
 }
 
 #[cfg(test)]
