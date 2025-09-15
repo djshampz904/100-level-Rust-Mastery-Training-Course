@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Define base directory
+BASE_DIR="test_data"
+
+# Clean up if it already exists
+rm -rf "$BASE_DIR"
+mkdir -p "$BASE_DIR/nested"
+
+# Create a valid file
+echo "This is a valid file with content." > "$BASE_DIR/valid.txt"
+
+# Create an empte file
+touch "$BASE_DIR/empty.txt"
+
+# Create a restricted file (Unix only)
+RESTRICTED="$BASE_DIR/restricted.txt"
+echo "You shouldn't be able to read this." > "$RESTRICTED"
+chmod 000 "$RESTRICTED" 2>/dev/null
+
+# Create a file with a weird name
+echo "Testing Unicode in filenames." > "$BASE_DIR/weird_💾_name.txt"
+
+# Create a nested file
+echo "Nested file content." > "$BASE_DIR/nested/note.txt"
+
+echo "✅ Test environment created in '$BASE_DIR'"
