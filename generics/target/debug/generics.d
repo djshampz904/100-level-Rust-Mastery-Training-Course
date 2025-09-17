@@ -1,0 +1,1 @@
+/home/shvmpz/100-level\ Rust\ Mastery\ Training\ Course/generics/target/debug/generics: /home/shvmpz/100-level\ Rust\ Mastery\ Training\ Course/generics/src/lib.rs /home/shvmpz/100-level\ Rust\ Mastery\ Training\ Course/generics/src/main.rs
